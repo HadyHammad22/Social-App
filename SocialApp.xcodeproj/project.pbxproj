@@ -20,6 +20,7 @@
 		74DDF2612303FC5B00648C63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74DDF25F2303FC5B00648C63 /* Main.storyboard */; };
 		74DDF2632303FC5C00648C63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74DDF2622303FC5C00648C63 /* Assets.xcassets */; };
 		74DDF2662303FC5C00648C63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74DDF2642303FC5C00648C63 /* LaunchScreen.storyboard */; };
+		74E8463323080C4F00932DEA /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E8463223080C4F00932DEA /* PostCell.swift */; };
 		74E927DE2306D9A80001F066 /* CirecleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E927DD2306D9A80001F066 /* CirecleView.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		74DDF2622303FC5C00648C63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74DDF2652303FC5C00648C63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74DDF2672303FC5C00648C63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74E8463223080C4F00932DEA /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		74E927DD2306D9A80001F066 /* CirecleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirecleView.swift; sourceTree = "<group>"; };
 		AB005B1033035493D7A8F108 /* Pods-SocialApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SocialApp/Pods-SocialApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 				74835594230447960069FF8D /* FancyField.swift */,
 				743E479E2304C56C00620AEB /* FancyBtn.swift */,
 				74E927DD2306D9A80001F066 /* CirecleView.swift */,
+				74E8463223080C4F00932DEA /* PostCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				7483558E230435BB0069FF8D /* FancyView.swift in Sources */,
 				74E927DE2306D9A80001F066 /* CirecleView.swift in Sources */,
 				743E479F2304C56C00620AEB /* FancyBtn.swift in Sources */,
+				74E8463323080C4F00932DEA /* PostCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
