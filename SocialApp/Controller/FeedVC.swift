@@ -14,6 +14,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var imageAdd: CirecleView!
     var imagePicker:UIImagePickerController!
     var posts = [Post]()
+    static var imageCash: NSCache<NSString, UIImage> = NSCache()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,11 +60,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostCell{
-            cell.configureCell(post: self.posts[indexPath.row])
-            return cell
+            if let image = FeedVC.imageCash.object(forKey: self.posts[indexPath.row].imageUrl as NSString){
+                cell.configureCell(post: self.posts[indexPath.row], img: image)
+                return cell
+            }else{
+                cell.configureCell(post: self.posts[indexPath.row])
+                return cell
+            }
         }else{
             return PostCell()
         }
+        
     }
     @IBAction func buSignOut(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: KEY_UID)
