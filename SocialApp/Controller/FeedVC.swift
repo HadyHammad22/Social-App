@@ -38,8 +38,12 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("DDDDDDD: \(posts[indexPath.row].likes)")
-        return tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostCell{
+            cell.configureCell(post: self.posts[indexPath.row])
+            return cell
+        }else{
+            return PostCell()
+        }
     }
     @IBAction func buSignOut(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: KEY_UID)
