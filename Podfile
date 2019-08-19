@@ -14,7 +14,5 @@ target 'SocialApp' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKCoreKit'
   pod 'FBSDKShareKit'
-  pod 'SwiftKeychainWrapper'
-    
 
 end

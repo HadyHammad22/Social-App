@@ -29,6 +29,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBAction func buSignOut(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: KEY_UID)
         try! Auth.auth().signOut()
+        self.dismiss(animated: true, completion: nil)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 350

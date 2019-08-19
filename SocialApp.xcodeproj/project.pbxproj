@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A6C8003200356586BBE1123 /* Pods_SocialApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E9420E8CF88DC52462FD9D /* Pods_SocialApp.framework */; };
+		74197666230944170065A317 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74197665230944170065A317 /* DataService.swift */; };
 		743E479F2304C56C00620AEB /* FancyBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743E479E2304C56C00620AEB /* FancyBtn.swift */; };
 		747957622303FCCB00D5C0BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 747957612303FCCB00D5C0BB /* GoogleService-Info.plist */; };
 		7483558E230435BB0069FF8D /* FancyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7483558D230435BB0069FF8D /* FancyView.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		4DE5D9DDE28151F83D012E88 /* Pods-SocialApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SocialApp/Pods-SocialApp.debug.xcconfig"; sourceTree = "<group>"; };
 		71E9420E8CF88DC52462FD9D /* Pods_SocialApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocialApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		74197665230944170065A317 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		743E479E2304C56C00620AEB /* FancyBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyBtn.swift; sourceTree = "<group>"; };
 		747957612303FCCB00D5C0BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7483558D230435BB0069FF8D /* FancyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74197664230943D30065A317 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				74197665230944170065A317 /* DataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		747957632303FED700D5C0BB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,7 +127,7 @@
 		74DDF25A2303FC5B00648C63 /* SocialApp */ = {
 			isa = PBXGroup;
 			children = (
-				74CC8C5423056CB000E8DA48 /* SocialApp.entitlements */,
+				74197664230943D30065A317 /* Services */,
 				74835591230437510069FF8D /* Utilities */,
 				747957652303FEE400D5C0BB /* Controller */,
 				747957642303FEDE00D5C0BB /* View */,
@@ -128,6 +138,7 @@
 				74DDF2642303FC5C00648C63 /* LaunchScreen.storyboard */,
 				74DDF2672303FC5C00648C63 /* Info.plist */,
 				747957612303FCCB00D5C0BB /* GoogleService-Info.plist */,
+				74CC8C5423056CB000E8DA48 /* SocialApp.entitlements */,
 			);
 			path = SocialApp;
 			sourceTree = "<group>";
@@ -271,6 +282,7 @@
 				7483559323043BB50069FF8D /* RoundBtn.swift in Sources */,
 				74DDF25C2303FC5B00648C63 /* AppDelegate.swift in Sources */,
 				7495BBE02305BDA4005C72B3 /* FeedVC.swift in Sources */,
+				74197666230944170065A317 /* DataService.swift in Sources */,
 				748355902304364A0069FF8D /* Constants.swift in Sources */,
 				7483558E230435BB0069FF8D /* FancyView.swift in Sources */,
 				74E927DE2306D9A80001F066 /* CirecleView.swift in Sources */,

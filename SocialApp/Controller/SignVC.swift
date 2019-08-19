@@ -25,32 +25,32 @@ class SignVC: UIViewController {
         }
     }
     
-   @IBAction func unwindToSign(segue: UIStoryboardSegue){}
+    @IBAction func unwindToSign(segue: UIStoryboardSegue){}
     
     @IBAction func buFBLogin(_ sender: Any) {
-//        let facebookLogin = LoginManager()
-//        facebookLogin.logIn(permissions: ["email"], from: self) { (result,error) in
-//            if error != nil{
-//                print("JESS: Unable to auth with facebook - \(String(describing: error))")
-//            }else if result?.isCancelled == true{
-//                print("JESS: User Canceled facebook auth")
-//            }else{
-//                print("JESS: Successfully auth with facebook")
-//                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
-//                self.firebaseAuth(credential)
-//            }
-//        }
+        //        let facebookLogin = LoginManager()
+        //        facebookLogin.logIn(permissions: ["email"], from: self) { (result,error) in
+        //            if error != nil{
+        //                print("JESS: Unable to auth with facebook - \(String(describing: error))")
+        //            }else if result?.isCancelled == true{
+        //                print("JESS: User Canceled facebook auth")
+        //            }else{
+        //                print("JESS: Successfully auth with facebook")
+        //                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+        //                self.firebaseAuth(credential)
+        //            }
+        //        }
     }
     
-//    func firebaseAuth(_ credential: AuthCredential){
-//        Auth.auth().signIn(with: credential, completion: { (user, error) in
-//            if error != nil{
-//                print("JESS: Unable to auth with firebase - \(String(describing: error))")
-//            }else{
-//                print("JESS: Successfully auth with firebase")
-//            }
-//        })
-//    }
+    //    func firebaseAuth(_ credential: AuthCredential){
+    //        Auth.auth().signIn(with: credential, completion: { (user, error) in
+    //            if error != nil{
+    //                print("JESS: Unable to auth with firebase - \(String(describing: error))")
+    //            }else{
+    //                print("JESS: Successfully auth with firebase")
+    //            }
+    //        })
+    //    }
     
     @IBAction func buSignIn(_ sender: Any) {
         if let email = emailTxt.text, let pwd = passwordTxt.text{
@@ -58,7 +58,8 @@ class SignVC: UIViewController {
                 if error == nil{
                     print("JESS: Auth Successfully")
                     if let user = user{
-                        self.completeSignIn(id: user.user.uid)
+                        let userData = ["Provider": user.user.providerID]
+                        self.completeSignIn(id: user.user.uid, userData: userData)
                     }
                 }else{
                     Auth.auth().createUser(withEmail: email, password: pwd, completion: { (user,error) in
@@ -67,7 +68,8 @@ class SignVC: UIViewController {
                         }else{
                             print("JESS: User Created Successfully and Auth Successfully")
                             if let user = user{
-                                self.completeSignIn(id: user.user.uid)
+                                let userData = ["Provider": user.user.providerID]
+                                self.completeSignIn(id: user.user.uid, userData: userData)
                             }
                         }
                     })
@@ -77,8 +79,11 @@ class SignVC: UIViewController {
         }
     }
     
-    func completeSignIn(id: String){
+    func completeSignIn(id: String,userData: Dictionary<String,String>){
+        DataService.db.createFirebaseDBUser(uid: id, userData: userData)
         UserDefaults.standard.set(id, forKey: KEY_UID)
+        emailTxt.text = ""
+        passwordTxt.text = ""
         let feedVC = storyboard?.instantiateViewController(withIdentifier: "FeedVC") as! FeedVC
         self.present(feedVC, animated: true, completion: nil)
     }
