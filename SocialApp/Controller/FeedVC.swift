@@ -8,12 +8,19 @@
 
 import UIKit
 import Firebase
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     @IBOutlet weak var tableView:UITableView!
+    @IBOutlet weak var imageAdd: CirecleView!
+    var imagePicker:UIImagePickerController!
     var posts = [Post]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
         DataService.db.REF_POSTS.observe(.value, with: { (snapshot) in
             print(snapshot.value!)
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot]{
@@ -27,8 +34,21 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
             self.tableView.reloadData()
         })
-
+        
     }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
+            imageAdd.image = image
+        }else{
+            print("JESS: A Valid Image Wasn't Selected")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func buSelectImage(_ sender: Any) {
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
