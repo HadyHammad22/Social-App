@@ -11,8 +11,22 @@ import Firebase
 class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView:UITableView!
+    var posts = [Post]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        DataService.db.REF_POSTS.observe(.value, with: { (snapshot) in
+            print(snapshot.value!)
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot]{
+                for snap in snapshot{
+                    if let postDict = snap.value as? Dictionary<String,AnyObject>{
+                        let key = snap.key
+                        let post = Post(postKey: key, postData: postDict)
+                        self.posts.append(post)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
 
     }
     
@@ -20,10 +34,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("DDDDDDD: \(posts[indexPath.row].likes)")
         return tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
     }
     @IBAction func buSignOut(_ sender: Any) {
