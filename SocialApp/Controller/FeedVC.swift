@@ -13,8 +13,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var tableView:UITableView!
     @IBOutlet weak var imageAdd: CirecleView!
     var imagePicker:UIImagePickerController!
+    @IBOutlet weak var captionField: FancyField!
     var posts = [Post]()
+    var imageSelected = false
     static var imageCash: NSCache<NSString, UIImage> = NSCache()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +43,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
             imageAdd.image = image
+            imageSelected = true
         }else{
             print("JESS: A Valid Image Wasn't Selected")
         }
@@ -50,6 +54,50 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         self.present(imagePicker, animated: true, completion: nil)
     }
     
+    @IBAction func buPosting(_ sender: Any) {
+        
+        guard let caption = captionField.text, caption != "" else{
+            print("JESS: caption must be entered")
+            return
+        }
+        guard let img = imageAdd.image, imageSelected == true else{
+            print("JESS: image must be selected")
+            return
+        }
+        if let imgData = img.jpegData(compressionQuality: 0.2){
+            let imgUid = NSUUID().uuidString
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpeg"
+            
+            DataService.db.REF_POST_IMAGES.child(imgUid).putData(imgData, metadata: metaData, completion: { (metadata,error) in
+                if error != nil{
+                    print("JESS: unable To Upload Image To Firebase Storage")
+                }else{
+                    print("JESS: Upload Image To Firebase Storage Successfully")
+                    DataService.db.REF_POST_IMAGES.child(imgUid).downloadURL(completion: { (url, error) in
+                        self.postToFirebase(imgUrl: url!.absoluteString)
+                    })
+                }
+            })
+            
+        }
+        
+    }
+    
+    func postToFirebase(imgUrl: String){
+        
+        let post: Dictionary<String,Any> = [
+            "caption": captionField.text!,
+            "imageURL": imgUrl,
+            "likes": 0
+        ]
+        
+        DataService.db.REF_POSTS.childByAutoId().setValue(post)
+        captionField.text = ""
+        imageSelected = false
+        imageAdd.image = UIImage(named: "add-image")
+        self.tableView.reloadData()
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -62,11 +110,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostCell{
             if let image = FeedVC.imageCash.object(forKey: self.posts[indexPath.row].imageUrl as NSString){
                 cell.configureCell(post: self.posts[indexPath.row], img: image)
-                return cell
             }else{
                 cell.configureCell(post: self.posts[indexPath.row])
-                return cell
             }
+            return cell
         }else{
             return PostCell()
         }

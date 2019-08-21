@@ -9,14 +9,26 @@
 import UIKit
 import Firebase
 class PostCell: UITableViewCell {
-
+    
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var caption: UITextView!
+    @IBOutlet weak var likesImage: UIImageView!
     
+    var likesRef: DatabaseReference!
+    var post:Post!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(likeTapped))
+        tap.numberOfTapsRequired = 1
+        likesImage.addGestureRecognizer(tap)
+        likesImage.isUserInteractionEnabled = true
+    }
     func configureCell(post: Post, img:UIImage? = nil){
+        self.post = post
+        likesRef = DataService.db.REF_CURRENT_USERS.child("likes").child(post.postKey)
         self.caption.text = post.caption
         self.likesLbl.text = "\(post.likes)"
         
@@ -39,5 +51,25 @@ class PostCell: UITableViewCell {
                 }
             })
         }
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull{
+                self.likesImage.image = UIImage(named: "empty-heart")
+            }else{
+                self.likesImage.image = UIImage(named: "filled-heart")
+            }
+        })
+    }
+    @objc func likeTapped(sender: UITapGestureRecognizer){
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull{
+                self.likesImage.image = UIImage(named: "filled-heart")
+                self.post.adjustLikes(addLike: true)
+                self.likesRef.setValue(true)
+            }else{
+                self.likesImage.image = UIImage(named: "empty-heart")
+                self.post.adjustLikes(addLike: false)
+                self.likesRef.removeValue()
+            }
+        })
     }
 }
