@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import FBSDKLoginKit
+import FBSDKCoreKit
 class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tableView:UITableView!
@@ -120,6 +122,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
     }
     @IBAction func buSignOut(_ sender: Any) {
+        if let _ = AccessToken.current{
+            AccessToken.current = nil
+        }
         UserDefaults.standard.removeObject(forKey: KEY_UID)
         try! Auth.auth().signOut()
         self.dismiss(animated: true, completion: nil)
